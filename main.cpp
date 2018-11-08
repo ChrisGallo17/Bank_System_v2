@@ -32,6 +32,7 @@ void bank::menu(){
     cout << "Enter 4 to remove account \n";
     cout << "Enter 5 to view all accounts \n";
     cout << "Enter 6 to exit \n";
+	cout << "Enter 7 to search existing account \n";
 
     cursor = 0;
 
@@ -62,7 +63,7 @@ void bank::menu(){
 			deposit();
 		}
 		else {
-			cout <<"PLease enter a valid option \n";
+			cout <<"Please enter a valid option \n";
 		}
 		menu();
 	}
@@ -77,6 +78,31 @@ void bank::menu(){
         menu();
     }
 
+	else if(cursor == 6){
+		exit(6);
+	}
+
+	else if(cursor == 7){
+		int num;
+		cout << "What account number were you looking for? \n";
+		cin >> num;
+		List.accountExists(num);
+		if(List.result == true){
+			cout << "This Account Exists! \n";
+		}
+		else if(List.result == false){
+			cout << "This account DOESN'T exist! \n";
+		}
+		else{ //if this is displayed then there's a bug
+			cout << "There is a bug here \n";
+		}
+		menu();
+	}
+	else{
+		cout << "Invalid input, try again \n";
+		menu();
+	}
+
 }
 
 void bank::addAccount(){
@@ -86,17 +112,28 @@ void bank::addAccount(){
 	cout <<"Please enter an account number you would like to use \n";
 	cin >>accNumber;
 
-	cout <<"please enter a pin number you would like to use for your account \n";
-	cin >>pin;
+	List.accountExists(accNumber);
 
-	cout <<"please enter your name: \n";
-	cin >>name;
+	if (List.result == false){
+		cout <<"Enter a pin number you would like to use for your account \n";
+		cin >>pin;
 
-	cout <<"please enter how much money you would like for your starting balance \n";
-	cin >>balance;
+		cout <<"Enter your name: \n";
+		cin >>name;
 
-	List.createNode(accNumber, balance, pin, name);
-	List.display_account(accNumber);
+		cout <<"How much money you would like for your starting balance? \n";
+		cin >>balance;
+
+		List.createNode(accNumber, balance, pin, name);
+		List.display_account(accNumber);
+	}
+	else if(List.result == true){
+		cout << "This account already exists \n";
+	}
+	else{ //if this is displayed then there's a bug
+		cout << "idk \n";
+	}
+
 }
 
 void bank::viewAccount(){
@@ -133,7 +170,7 @@ void bank::deposit(){
 	List.deposit(accNumber, wnum);
 }
 
-void bank::removeAccount(){
+void bank::removeAccount(){ //fix bug that removes account
 	int accNumber;
 
 	cout <<"please enter account number \n";

@@ -20,6 +20,8 @@ class list{
 private:
     node *head, *tail;
 public:
+    bool result;
+
     list(){
         head=NULL;
         tail=NULL;
@@ -54,7 +56,8 @@ public:
         }
 
         if (temp->acNum==num){
-            cout<<"hello "<<temp->acName<<"\n"<<"your account number is "<<temp->acNum<<"\n"<<"your balance is "<<temp->acBal<<"$"<<"\n";
+            cout << "Hello " << temp->acName << ",\n" << "your account number is " << temp->acNum;
+            cout <<" and your balance is $" << temp->acBal << "\n";
         }
     }
 
@@ -94,7 +97,7 @@ public:
     }
 
     void deposit(int num, int wnum){
-        node *temp=new node;
+        node *temp;
         temp=head;
         while (temp->acNum!=num){
             temp=temp->next;
@@ -116,28 +119,46 @@ public:
         temp=head;
         while (temp != NULL){
             cout << temp->acNum << " " << temp->acName << " " << temp->acPin << " $" << temp->acBal << endl;
-            temp=temp->next;
+            temp = temp->next;
         }
     }
 
     void searchAccount(int num){
         node *temp;
-        temp=head;
-        while (temp->acNum!=num){
-            temp=temp->next;
-            if (temp==tail && temp->acNum!=num){
+        temp = head;
+        while (temp->acNum != num){
+            temp = temp->next;
+            if (temp == tail && temp->acNum != num){
                 cout<<"Sorry this account number does not exit, please try again \n";
                 break;
             }
         }
 
         if (temp->acNum==num){
-            cout<<"hello "<<temp->acName<<"\n"<<"your account number is "<<temp->acNum<<"\n"<<"your balance is $"<<temp->acBal<<"\n";
+            cout << "hello " << temp->acName << "\n" << "your account number is ";
+            cout << temp->acNum << "\n" << "your balance is $" << temp->acBal << "\n";
         }
     }
 
-    void checkValidAccount(){
+    // uses recursion to search for an account number in the linked list
+    void searchRecursive(node *ptr, int searchNum){
 
+        if (ptr == NULL){ // The number is NOT in the list
+            result = false;
+        }
+        else if(ptr->acNum == searchNum){ // The number IS in the list
+            result = true;
+        }
+        else{
+            searchRecursive(ptr->next, searchNum);
+        }
+    }
+
+    // checks if account exists
+    /* created a function for this because you can only pass *head
+       inside of this list file because head is private*/
+    int accountExists(int num){
+        searchRecursive(head, num);
     }
 
 };
