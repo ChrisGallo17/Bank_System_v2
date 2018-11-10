@@ -98,10 +98,22 @@ void bank::menu(){
 		}
 		menu();
 	}
+
+	/*
+    else if(cursor == 8){
+		allAccounts();
+		cout << "\n";
+        List.sortAccounts();
+		cout << "\n";
+        menu();
+    }*/
+
 	else{
 		cout << "Invalid input, try again \n";
 		menu();
 	}
+
+
 
 }
 
@@ -183,18 +195,4 @@ void bank::allAccounts() {
 
     cout << "The accounts are as follows: " << endl;
     List.allAccounts();
-}
-
-/*void bank::sortAccounts(){
-	// Send reference of head into MergeSort().
-	MergeSort(List.&head);
-
-	// Printing the sorted data.
-	cout<<"\nSorted Data ";
-
-	while(head != NULL)
-	{
-		cout<<".."<<head->data;
-		head=head->next;
-	}*/
 }

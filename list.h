@@ -18,7 +18,7 @@ struct node{
 
 class list{
 private:
-    node *head, *tail, *insert;
+    node *head, *tail, *newhead, *newtail;
 public:
     bool result;
 
@@ -26,6 +26,7 @@ public:
         head=NULL;
         tail=NULL;
     }
+
     void createNode (int num, int bal, int pin, string name){
         node *temp=new node;
         temp->acNum=num;
@@ -124,7 +125,8 @@ public:
         }
     }
 
-    void searchAccount(int num){
+
+    /*void searchAccount(int num){
         node *temp;
         temp = head;
         while (temp->acNum != num){
@@ -139,7 +141,7 @@ public:
             cout << "hello " << temp->acName << "\n" << "your account number is ";
             cout << temp->acNum << "\n" << "your balance is $" << temp->acBal << "\n";
         }
-    }
+    }*/
 
     // uses recursion to search for an account number in the linked list
     void searchRecursive(node *ptr, int searchNum){
@@ -156,25 +158,13 @@ public:
     }
 
     // checks if account exists
-    /* created a function for this because you can only pass *head
-       inside of this list file because head is private*/
+    // created a function for this because you can only pass *head
+    // inside of this list file because head is private
     int accountExists(int num){
         searchRecursive(head, num);
     }
 
     /*
-
-    void insertAccount(int newNum){
-        node *insNum, *cur;
-        cur = head;
-        while (cur->acNum <= newNum && cur->acNum != NULL){
-            cout << cur->acNum << "\t";
-            cur = cur->next;
-        }
-        cout << newNum << "\t";
-
-    }*/
-
     node* Merge(node* h1, node* h2)
     {
         node *t1;
@@ -238,13 +228,13 @@ public:
 
 
 // A function implementing Merge Sort on linked list using reference.
-    void MergeSort(node **head)
+    void MergeSort(node **mHead)
     {
         node *first;
         node *second;
         node *temp;
-        first = *head;
-        temp = *head;
+        first = *mHead;
+        temp = *mHead;
 
         // Return if list have less than two nodes.
         if(first == NULL || first->next == NULL)
@@ -265,7 +255,7 @@ public:
             }
             second = temp->next;
             temp->next = NULL;
-            first = *head;
+            first = *mHead;
         }
 
         // Implementing divide and conquer approach.
@@ -273,10 +263,33 @@ public:
         MergeSort(&second);
 
         // Merge the two part of the list into a sorted one.
-        *head = Merge(first, second);
+        *mHead = Merge(first, second);
     }
 
+    void sortAccounts(){
+        // Send reference of head into MergeSort().
+        MergeSort(&head);
 
+        // Printing the sorted data.
+        cout<<"\nSorted Data \n";
+
+        newhead = NULL;
+        newtail = NULL;
+
+        while(head != NULL)
+        {
+            cout << head->acNum << "\t" << head->acName << "\t";
+            cout << head->acPin << "\t$" << head->acBal << "\n";
+
+            createNode(head->acNum, head->acBal, head->acPin, head->acName);
+            if(newhead == NULL) {
+                newhead = newtail;
+            }
+
+            head=head->next;
+        }
+    }
+*/
 };
 
 
