@@ -184,3 +184,17 @@ void bank::allAccounts() {
     cout << "The accounts are as follows: " << endl;
     List.allAccounts();
 }
+
+/*void bank::sortAccounts(){
+	// Send reference of head into MergeSort().
+	MergeSort(List.&head);
+
+	// Printing the sorted data.
+	cout<<"\nSorted Data ";
+
+	while(head != NULL)
+	{
+		cout<<".."<<head->data;
+		head=head->next;
+	}*/
+}
