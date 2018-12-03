@@ -18,6 +18,15 @@ class bank{
 };
 
 int main() {
+	
+	
+	
+	List.createNode(5, 1, 123, "colten");
+	List.createNode(11, 100, 123, "paul");
+	List.createNode(3, 555, 123, "sean");
+	List.createNode(9, 1700, 123, "coocoo");
+	List.createNode(1, 14, 123, "batman");
+	
 	bank bk;
 
 	bk.menu();
@@ -25,6 +34,7 @@ int main() {
 }
 
 void bank::menu(){
+	
 
 	cout << "\nEnter 1 to create an account \n";
     cout << "Enter 2 to view account balance \n";
@@ -86,7 +96,7 @@ void bank::menu(){
 		int num;
 		cout << "What account number were you looking for? \n";
 		cin >> num;
-		List.accountExists(num);
+		//List.accountExists(num);
 		if(List.result == true){
 			cout << "This Account Exists! \n";
 		}
@@ -99,14 +109,11 @@ void bank::menu(){
 		menu();
 	}
 
-	/*
+	
     else if(cursor == 8){
-		allAccounts();
-		cout << "\n";
-        List.sortAccounts();
-		cout << "\n";
-        menu();
-    }*/
+		List.sort();
+		menu();
+    }
 
 	else{
 		cout << "Invalid input, try again \n";
@@ -123,28 +130,16 @@ void bank::addAccount(){
 
 	cout <<"Please enter an account number you would like to use \n";
 	cin >>accNumber;
+	cout <<"Enter a pin number you would like to use for your account \n";
+	cin >>pin;
 
-	List.accountExists(accNumber);
+	cout <<"Enter your name: \n";
+	cin >>name;
 
-	if (List.result == false){
-		cout <<"Enter a pin number you would like to use for your account \n";
-		cin >>pin;
+	cout <<"How much money you would like for your starting balance? \n";
+	cin >>balance;
 
-		cout <<"Enter your name: \n";
-		cin >>name;
-
-		cout <<"How much money you would like for your starting balance? \n";
-		cin >>balance;
-
-		List.createNode(accNumber, balance, pin, name);
-		List.display_account(accNumber);
-	}
-	else if(List.result == true){
-		cout << "This account already exists \n";
-	}
-	else{ //if this is displayed then there's a bug
-		cout << "idk \n";
-	}
+	List.createNode(accNumber, balance, pin, name);
 
 }
 
@@ -194,5 +189,5 @@ void bank::removeAccount(){ //fix bug that removes account
 void bank::allAccounts() {
 
     cout << "The accounts are as follows: " << endl;
-    List.allAccounts();
+    List.tempAll(List.head);
 }

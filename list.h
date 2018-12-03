@@ -18,8 +18,8 @@ struct node{
 
 class list{
 private:
-    node *head, *tail, *newhead, *newtail;
 public:
+	node *head, *tail, *newhead, *newtail;
     bool result;
 
     list(){
@@ -42,88 +42,183 @@ public:
         else{
             tail->next=temp;
             tail=temp;
-        }
+        }     
     }
 
     void display_account(int num){
-        node *temp;
-        temp=head;
-        while (temp->acNum!=num){
-            temp=temp->next;
-            if (temp==tail && temp->acNum!=num){
-                cout<<"Sorry this account number does not exit, please try again \n";
-                break;
-            }
-        }
-
-        if (temp->acNum==num){
-            cout << "Hello " << temp->acName << ",\n" << "your account number is ";
-            cout << temp->acNum <<" and your balance is $" << temp->acBal << "\n";
-        }
+        sort();
+    	node *temp = binarySearch(head, num);
+    	
+    	if (temp == NULL){
+    		cout <<"Account does not exist \n";
+    		return;
+		}else {
+			cout << "welcome " << temp->acName << " your account balance is " << temp->acBal << "\n";
+		}
     }
 
     void Delete(int num){
-        node *current;
-        node *previous=new node;
-        current=head;
-        while(current->acNum!=num){
+        sort();
+        node *temp = binarySearch(head, num);
+        node *current = head;
+        node *previous;
+        while (current != temp){
+        	if (current == NULL || temp == NULL){
+        		break;
+			}
             previous=current;
             current=current->next;
-            if (current==tail){
-                cout<<"could not find this account \n";
-                break;
-            }
-        }
-        if (current->acNum==num){
-            previous->next=current->next;
-            delete current;
-        }
+		}
+        
+        if (temp == NULL){
+        	cout << "Account does not exist \n";
+        	return;
+		}
+		else{
+			previous->next = current->next;
+			delete current;
+		}
     }
 
-    void withdraw(int num, int wnum){
-        node *temp;
-        temp=head;
-        while (temp->acNum!=num){
-            temp=temp->next;
-            if (temp==tail && temp->acNum!=num){
-                cout<<"Sorry this account number does not exit, please try again \n";
-                break;
-            }
-        }
-
-        if (temp->acNum==num){
-            temp->acBal = temp->acBal - wnum;
-            display_account(num);
-        }
+    void withdraw(int num, int wnum){ 
+	
+		sort();
+		node *temp = binarySearch(head, num);
+		
+		if (temp == NULL){
+			cout <<"Account does not exist \n";
+			return;
+		}else {
+			temp->acBal = temp->acBal - wnum;
+			display_account(num);
+		}      
     }
 
-    void deposit(int num, int wnum){
-        node *temp;
-        temp=head;
-        while (temp->acNum!=num){
-            temp=temp->next;
-            if (temp==tail && temp->acNum!=num){
-                cout<<"Sorry this account number does not exit, please try again \n";
-                break;
-            }
-        }
-
-        if (temp->acNum==num){
-            temp->acBal = temp->acBal + wnum;
-            display_account(num);
-        }
+    void deposit(int num, int wnum){   
+		sort();
+		node *temp = binarySearch(head, num);
+		
+		if (temp == NULL){
+			cout <<"Account does not exist \n";
+			return;
+		}else {
+			temp->acBal = temp->acBal + wnum;
+			display_account(num);
+		}     
     }
 
     void allAccounts(){
-
-        node *temp;
-        temp=head;
-        while (temp != NULL){
-            cout << temp->acNum << " " << temp->acName << " " << temp->acPin;
-            cout << " $" << temp->acBal << endl;
-            temp = temp->next;
-        }
     }
+    
+    void tempAll (node *headRef){
+    	if (headRef == NULL) return;
+    	else{
+    		cout << headRef->acNum << " " << headRef->acName << " \n";
+    		tempAll(headRef->next);
+		}
+	}
+    
+    void sort(){
+    	head = mergeSort(head);
+	}
+    
+    node *mergeSort(node *headRef){
+ 		
+		 node *list2;
+		 
+		 if (headRef == NULL){
+		 	return NULL;
+		 }
+		 
+		 else if  (headRef->next == NULL){
+		 	return headRef;
+		}
+	
+		else {
+			list2 = split(headRef);
+			return merge(mergeSort(headRef), mergeSort(list2));
+		}
+		    	
+	}
+	
+	node *merge(node *firstNode, node *secondNode){
+		
+		if (firstNode == NULL) return secondNode;
+		else if (secondNode == NULL) return firstNode;
+		else if (firstNode->acNum <= secondNode->acNum){
+			firstNode->next = merge(firstNode->next, secondNode);
+			return firstNode;
+		}
+		
+		else {
+			secondNode->next = merge(firstNode, secondNode->next);
+			return secondNode;
+		}
+		
+	}
+	
+	node *split(node *myNode){
+		node *secondNode;
+		
+		if (myNode == NULL) return NULL;
+		else if (myNode->next == NULL) return NULL;
+		else {
+			secondNode = myNode->next;
+			myNode->next = secondNode->next;
+			secondNode->next = split(secondNode->next);
+			return secondNode;
+		}
+	}
+	
+	// function to find out middle element 
+	node *middle(node *start, node *last){
+		if (start == NULL){
+			return NULL;
+		}
+		
+		node *slow = start;
+		node *fast = start->next;
+		
+		while (fast != last){
+			fast = fast->next;
+			if (fast != last){
+				slow = slow->next;
+				fast = fast->next;
+			}
+		}
+		
+		return slow;
+	}
+	
+	node *binarySearch(node *head, int value){
+		node *start = head;
+		node *last = NULL;
+		
+		do{
+			node *mid = middle(start, last);
+			
+			
+			if (mid == NULL){
+				return NULL;
+			}
+			
+			if (mid->acNum == value){
+				return mid;
+			}
+			
+			else if (mid->acNum < value){
+				start = mid->next;
+			}
+			else{
+				last = mid;
+			}
+		}
+		while (last == NULL || last->next != start);
+		
+		return NULL;
+	}
+	
+	
 
 
     /*void searchAccount(int num){
@@ -144,7 +239,7 @@ public:
     }*/
 
     // uses recursion to search for an account number in the linked list
-    void searchRecursive(node *ptr, int searchNum){
+    /*void searchRecursive(node *ptr, int searchNum){
 
         if (ptr == NULL){ // The number is NOT in the list
             result = false;
@@ -162,7 +257,7 @@ public:
     // inside of this list file because head is private
     int accountExists(int num){
         searchRecursive(head, num);
-    }
+    }*/
 
     /*
     node* Merge(node* h1, node* h2)
