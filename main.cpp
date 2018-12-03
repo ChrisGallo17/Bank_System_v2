@@ -7,59 +7,63 @@ int cursor;
 
 
 class bank{
-	public:
+public:
 	void menu();
-    void addAccount();
-    void viewAccount();
-    void removeAccount();
-    void withdraw();
-    void deposit();
-    void allAccounts();
+	void addAccount();
+	void viewAccount();
+	void removeAccount();
+	void withdraw();
+	void deposit();
+	void allAccounts();
 };
 
 int main() {
-	
-	
-	
-	List.createNode(5, 1, 123, "colten");
-	List.createNode(11, 100, 123, "paul");
-	List.createNode(3, 555, 123, "sean");
-	List.createNode(9, 1700, 123, "coocoo");
-	List.createNode(1, 14, 123, "batman");
-	
 	bank bk;
 
+	List.createNode(5, 1, 123, "Colten", 's');
+	List.createNode(3, 100, 123, "Paul", 'c');
+	List.createNode(4, 555, 123, "Sean", 's');
+	List.createNode(2, 1700, 123, "Coocoo", 'c');
+	List.createNode(1, 14, 123, "Batman", 's');
+	List.createNode(6, 14, 123, "Chris", 's');
+	List.createNode(8, 14, 123, "Jose", 's');
+	List.createNode(23, 14, 123, "Mondo", 's');
+
+	cout << "Welcome to your Banking System,\n";
 	bk.menu();
 	return 0;
 }
 
 void bank::menu(){
-	
 
-	cout << "\nEnter 1 to create an account \n";
-    cout << "Enter 2 to view account balance \n";
-    cout << "Enter 3 to withdraw or deposit from account \n";
-    cout << "Enter 4 to remove account \n";
-    cout << "Enter 5 to view all accounts \n";
-    cout << "Enter 6 to exit \n";
-	cout << "Enter 7 to search existing account \n";
+	cout << "\n1: Create an account \n";
+	cout << "2: View account balance \n";
+	cout << "3: Withdraw or deposit from account \n";
+	cout << "4: Remove account \n";
+	cout << "5: View all accounts \n";
+	cout << "6: Transfer Money \n";
+	cout << "7: Search existing account \n";
+	cout << "8: Sort Accounts \n";
+	cout << "9: Exit \n";
 
-    cursor = 0;
+	cursor = 0;
 
-    cin >> cursor;
+	cin >> cursor;
 
-    if (cursor == 1)
-    {
-        // Create account function
-        addAccount();
-        menu();
-    }
-
-    else if (cursor == 2){
-    	viewAccount();
-    	menu();
+	// Create Account
+	if (cursor == 1)
+	{
+		addAccount();
+		menu();
 	}
 
+		// View Account
+	else if (cursor == 2){
+		viewAccount();
+		menu();
+	}
+
+		// Withdraw or Deposit
 	else if (cursor ==3){
 		char input;
 
@@ -78,20 +82,25 @@ void bank::menu(){
 		menu();
 	}
 
+		// Remove Account
 	else if(cursor == 4){
 		removeAccount();
 		menu();
 	}
 
-    else if(cursor == 5){
-        allAccounts();
-        menu();
-    }
-
-	else if(cursor == 6){
-		exit(6);
+		// View all accounts
+	else if(cursor == 5){
+		allAccounts();
+		menu();
 	}
 
+		// Transfer Money
+	else if(cursor == 6){
+		cout << "transfer money feature: work in progress\n";
+		menu();
+	}
+
+		// Search For Account
 	else if(cursor == 7){
 		int num;
 		cout << "What account number were you looking for? \n";
@@ -109,38 +118,49 @@ void bank::menu(){
 		menu();
 	}
 
-	
-    else if(cursor == 8){
+		// Sort List
+	else if(cursor == 8){
 		List.sort();
+
+		cout << "Merge Sort Complete. \n";
+		allAccounts();
 		menu();
-    }
+	}
+
+	else if(cursor == 9){
+		exit(9);
+	}
 
 	else{
 		cout << "Invalid input, try again \n";
 		menu();
 	}
 
-
-
 }
 
+// == Needs to check if account number is already taken before creating ==
 void bank::addAccount(){
 	int accNumber, pin, balance;
 	string name;
+	char choice;
 
 	cout <<"Please enter an account number you would like to use \n";
 	cin >>accNumber;
+
 	cout <<"Enter a pin number you would like to use for your account \n";
 	cin >>pin;
 
 	cout <<"Enter your name: \n";
 	cin >>name;
 
+	cout << "Would you like to start with money in your Savings or Checking account? \n";
+	cout << "Type c for Checking / s for Savings \n";
+	cin >> choice;
+
 	cout <<"How much money you would like for your starting balance? \n";
 	cin >>balance;
 
-	List.createNode(accNumber, balance, pin, name);
-
+	List.createNode(accNumber, balance, pin, name, choice);
 }
 
 void bank::viewAccount(){
@@ -150,37 +170,47 @@ void bank::viewAccount(){
 	cin >>accNumber;
 
 	List.display_account(accNumber);
-
 }
 
 void bank::withdraw(){
 	int accNumber, wnum;
+	char choice;
 
 	cout <<"please enter your account number \n";
 	cin >>accNumber;
+
+	cout << "Would you like to take from your checking or savings account?\n";
+	cout << "Type c for checking and s for saving\n";
+	cin >> choice;
 
 	cout <<"please enter how much money you would like to take out \n";
 	cin >>wnum;
 
-	List.withdraw(accNumber, wnum);
+	List.withdraw(accNumber, wnum, choice);
 }
 
 void bank::deposit(){
 	int accNumber, wnum;
+	char choice;
 
 	cout <<"please enter your account number \n";
 	cin >>accNumber;
 
+	cout << "Would you like to add to your checking or savings account?\n";
+	cout << "Type c for checking and s for saving\n";
+	cin >> choice;
+
 	cout <<"please enter how much money you would like to add \n";
 	cin >>wnum;
 
-	List.deposit(accNumber, wnum);
+	List.deposit(accNumber, wnum, choice);
 }
 
-void bank::removeAccount(){ //fix bug that removes account
+// fix bug that removes account
+void bank::removeAccount(){
 	int accNumber;
 
-	cout <<"please enter account number \n";
+	cout <<"Please enter account number \n";
 	cin >>accNumber;
 
 	List.Delete(accNumber);
@@ -188,6 +218,6 @@ void bank::removeAccount(){ //fix bug that removes account
 
 void bank::allAccounts() {
 
-    cout << "The accounts are as follows: " << endl;
-    List.tempAll(List.head);
+	cout << "The accounts are as follows: " << endl;
+	List.tempAll(List.head);
 }
