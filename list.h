@@ -59,21 +59,24 @@ public:
 		}
 	}
 
-	void display_account(int num){
+	void display_account(int num, int pin){
 		sort();
 		node *temp = binarySearch(head, num);
 
 		if (temp == NULL){
 			cout <<"Account does not exist \n";
 			return;
-		}else {
+		}else if (checkPin(pin, temp->acPin)) {
 			cout << "Welcome " << temp->acName << ",\n" << "your account number is ";
 			cout << temp->acNum <<" and your current balance is \nChecking Account: $";
 			cout << temp->checkBal << "\nSavings Account: $" << temp->savBal << "\n";
+		}else{
+			cout <<"Incorrect PIN, please try again \n";
+			return;
 		}
 	}
 
-	void Delete(int num){
+	void Delete(int num, int pin){
 		sort();
 		node *temp = binarySearch(head, num);
 		node *current = head;
@@ -90,13 +93,16 @@ public:
 			cout << "Account does not exist \n";
 			return;
 		}
-		else{
+		else if(checkPin(pin, temp->acPin)){
 			previous->next = current->next;
 			delete current;
+		}else{
+			cout <<"Incorrect PIN, please try again \n";
+			return;
 		}
 	}
 
-	void withdraw(int num, int wnum, char choice){
+	void withdraw(int num, int wnum, char choice, int pin){
 
 		sort();
 		node *temp = binarySearch(head, num);
@@ -105,21 +111,25 @@ public:
 			cout <<"Account does not exist \n";
 			return;
 		}else {
-			if(choice == 'c'){
+			if(choice == 'c' && checkPin(pin, temp->acPin)){
 				temp->checkBal = temp->checkBal - wnum;
 			}
-			else if(choice == 's'){
+			else if(choice == 's' && checkPin(pin, temp->acPin)){
 				temp->savBal = temp->savBal - wnum;
+			}else if(!checkPin(pin, temp->acPin)){
+				cout <<"Incorrect PIN, please try again \n";
+				return;
 			}
 			else{
 				cout << "Invalid input for savings or checking \n";
 				cout << "The action was not completed";
+				return;
 			}
-			display_account(num);
+			display_account(num, temp->acPin);
 		}
 	}
 
-	void deposit(int num, int wnum, char choice){
+	void deposit(int num, int wnum, char choice, int pin){
 		sort();
 		node *temp = binarySearch(head, num);
 
@@ -127,21 +137,22 @@ public:
 			cout <<"Account does not exist \n";
 			return;
 		}else {
-			if(choice == 'c'){
+			if(choice == 'c' && checkPin(pin, temp->acPin)){
 				temp->checkBal = temp->checkBal + wnum;
 			}
-			else if(choice == 's'){
+			else if(choice == 's' && checkPin(pin, temp->acPin)){
 				temp->savBal = temp->savBal + wnum;
+			}else if(!checkPin(pin, temp->acPin)){
+				cout <<"Incorrect PIN, please try again \n";
+				return;
 			}
 			else{
 				cout << "Invalid input for savings or checking \n";
 				cout << "The action was not completed";
+				return;
 			}
-			display_account(num);
+			display_account(num, temp->acPin);
 		}
-	}
-
-	void allAccounts(){
 	}
 
 	void tempAll (node *headRef){
@@ -250,6 +261,16 @@ public:
 		while (last == NULL || last->next != start);
 
 		return NULL;
+	}
+	
+	bool checkPin(int entered, int actual){
+		
+		if (entered == actual){
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 };

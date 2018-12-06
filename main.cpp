@@ -12,7 +12,7 @@ public:
 	void addAccount();
 	void viewAccount();
 	void removeAccount();
-	void withdraw();
+	void Withdraw();
 	void deposit();
 	void allAccounts();
 };
@@ -71,7 +71,7 @@ void bank::menu(){
 		cin >>input;
 
 		if (input == 'w'){
-			withdraw();
+			Withdraw();
 		}
 		else if (input == 'd'){
 			deposit();
@@ -106,7 +106,7 @@ void bank::menu(){
 		cout << "What account number were you looking for? \n";
 		cin >> num;
 		//List.accountExists(num);
-		if(List.result == true){
+		/*if(List.result == true){
 			cout << "This Account Exists! \n";
 		}
 		else if(List.result == false){
@@ -114,7 +114,7 @@ void bank::menu(){
 		}
 		else{ //if this is displayed then there's a bug
 			cout << "There is a bug here \n";
-		}
+		}*/
 		menu();
 	}
 
@@ -164,20 +164,26 @@ void bank::addAccount(){
 }
 
 void bank::viewAccount(){
-	int accNumber;
+	int accNumber, pin;
 
 	cout <<"Please enter your account number \n";
 	cin >>accNumber;
+	
+	cout <<"Please enter your PIN number \n";
+	cin >>pin;
 
-	List.display_account(accNumber);
+	List.display_account(accNumber, pin);
 }
 
-void bank::withdraw(){
-	int accNumber, wnum;
+void bank::Withdraw(){
+	int accNumber, wnum, pin;
 	char choice;
 
 	cout <<"please enter your account number \n";
 	cin >>accNumber;
+	
+	cout <<"Please enter your PIN number \n";
+	cin>>pin;
 
 	cout << "Would you like to take from your checking or savings account?\n";
 	cout << "Type c for checking and s for saving\n";
@@ -186,15 +192,18 @@ void bank::withdraw(){
 	cout <<"please enter how much money you would like to take out \n";
 	cin >>wnum;
 
-	List.withdraw(accNumber, wnum, choice);
+	List.withdraw(accNumber, wnum, choice, pin);
 }
 
 void bank::deposit(){
-	int accNumber, wnum;
+	int accNumber, wnum, pin;
 	char choice;
 
 	cout <<"please enter your account number \n";
 	cin >>accNumber;
+	
+	cout <<"Please enter your PIN number \n";
+	cin>>pin;
 
 	cout << "Would you like to add to your checking or savings account?\n";
 	cout << "Type c for checking and s for saving\n";
@@ -203,17 +212,20 @@ void bank::deposit(){
 	cout <<"please enter how much money you would like to add \n";
 	cin >>wnum;
 
-	List.deposit(accNumber, wnum, choice);
+	List.deposit(accNumber, wnum, choice, pin);
 }
 
 // fix bug that removes account
 void bank::removeAccount(){
-	int accNumber;
+	int accNumber, pin;
 
 	cout <<"Please enter account number \n";
 	cin >>accNumber;
+	
+	cout <<"please enter PIN number \n";
+	cin >>pin;
 
-	List.Delete(accNumber);
+	List.Delete(accNumber, pin);
 }
 
 void bank::allAccounts() {
