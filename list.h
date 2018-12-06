@@ -272,6 +272,16 @@ public:
 		}
 		
 	}
+	
+	bool accountExists(int num){
+		sort();
+		node *temp = binarySearch(head, num);
+		if (temp == NULL){
+			return false;
+		} else{
+			return true;
+		}
+	}
 
 };
 

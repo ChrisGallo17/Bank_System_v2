@@ -106,15 +106,15 @@ void bank::menu(){
 		cout << "What account number were you looking for? \n";
 		cin >> num;
 		//List.accountExists(num);
-		/*if(List.result == true){
+		if(List.accountExists(num)){
 			cout << "This Account Exists! \n";
 		}
-		else if(List.result == false){
+		else if(!List.accountExists(num)){
 			cout << "This account DOESN'T exist! \n";
 		}
 		else{ //if this is displayed then there's a bug
 			cout << "There is a bug here \n";
-		}*/
+		}
 		menu();
 	}
 
@@ -159,8 +159,12 @@ void bank::addAccount(){
 
 	cout <<"How much money you would like for your starting balance? \n";
 	cin >>balance;
-
-	List.createNode(accNumber, balance, pin, name, choice);
+	if (List.accountExists(accNumber)){
+		cout << "this account number is taken please enter a different one \n";
+		return;
+	}else{
+		List.createNode(accNumber, balance, pin, name, choice);
+	}
 }
 
 void bank::viewAccount(){
