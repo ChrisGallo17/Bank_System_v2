@@ -154,6 +154,25 @@ public:
 			display_account(num, temp->acPin);
 		}
 	}
+	
+	void wireTransfer(int num, int snum, char choice, int pin, int amount){
+		
+		sort();
+		node *temp = binarySearch(head, snum);
+		node *templ = binarySearch(head, num);
+		
+		if (accountExists(num) && accountExists(snum) && checkPin(pin, templ->acPin)){
+			withdraw(num, amount, choice, pin);
+			deposit(snum, amount, 'c', temp->acPin);
+		}else if(!checkPin(pin, templ->acPin)){
+			cout <<"Incorrect PIN, please try again \n";
+			return;
+		}else{
+			cout <<"One of those accounts does not exist \n";
+			return;
+		}
+		
+	}
 
 	void tempAll (node *headRef){
 		if (headRef == NULL) return;

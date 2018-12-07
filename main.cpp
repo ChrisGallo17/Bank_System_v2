@@ -15,6 +15,7 @@ public:
 	void Withdraw();
 	void deposit();
 	void allAccounts();
+	void wireTransfer();
 };
 
 int main() {
@@ -45,6 +46,7 @@ void bank::menu(){
 	cout << "7: Search existing account \n";
 	cout << "8: Sort Accounts \n";
 	cout << "9: Exit \n";
+	cout << "10: Wire transfer \n";
 
 	cursor = 0;
 
@@ -129,6 +131,11 @@ void bank::menu(){
 
 	else if(cursor == 9){
 		exit(9);
+	}
+	
+	else if (cursor == 10){
+		wireTransfer();
+		menu();
 	}
 
 	else{
@@ -236,4 +243,28 @@ void bank::allAccounts() {
 
 	cout << "The accounts are as follows: " << endl;
 	List.tempAll(List.head);
+}
+
+void bank::wireTransfer(){
+	
+	int num, pin, snum, amount;
+	char choice;
+	
+	cout <<"please enter your account number \n";
+	cin >>num;
+	
+	cout <<"Please enter your pin num \n";
+	cin >> pin;
+	
+	cout<<"would you like to use your checkings or savings account? \n";
+	cout <<"Type c for checking, and s for savings \n";
+	cin >> choice;
+	
+	cout<<"Please enter the account number you would like to transfer money to \n";
+	cin >> snum;
+	
+	cout <<"Please enter the amount of money you would like to transfer \n";
+	cin>> amount;
+	
+	List.wireTransfer(num, snum, choice, pin, amount);
 }
