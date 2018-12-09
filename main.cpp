@@ -166,12 +166,11 @@ void bank::addAccount(){
 
 	cout <<"How much money you would like for your starting balance? \n";
 	cin >>balance;
-	if (List.accountExists(accNumber)){
-		cout << "this account number is taken please enter a different one \n";
-		return;
-	}else{
+	//if (List.accountExists(accNumber)){
+		//cout << "This account exists, please try again \n";
+	//}else {
 		List.createNode(accNumber, balance, pin, name, choice);
-	}
+	//}
 }
 
 void bank::viewAccount(){
