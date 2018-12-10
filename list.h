@@ -81,6 +81,20 @@ public:
 		node *temp = binarySearch(head, num);
 		node *current = head;
 		node *previous;
+		node *newhead = head->next;
+		
+		if (temp == head){
+			if (checkPin(pin, temp->acPin)){
+				delete head;
+				head = newhead;
+				return;
+			}
+			else {
+				cout <<"Incorrect PIN, please try again \n";
+				return;
+			}
+		}
+		
 		while (current != temp){
 			if (current == NULL || temp == NULL){
 				break;
@@ -125,7 +139,6 @@ public:
 				cout << "The action was not completed";
 				return;
 			}
-			display_account(num, temp->acPin);
 		}
 	}
 
@@ -151,7 +164,6 @@ public:
 				cout << "The action was not completed";
 				return;
 			}
-			display_account(num, temp->acPin);
 		}
 	}
 	
