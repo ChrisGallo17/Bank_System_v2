@@ -125,13 +125,16 @@ public:
 			cout <<"Account does not exist \n";
 			return;
 		}else {
-			if(choice == 'c' && checkPin(pin, temp->acPin)){
+			if(choice == 'c' && checkPin(pin, temp->acPin) && hasMoney(wnum, num, choice)){
 				temp->checkBal = temp->checkBal - wnum;
 			}
-			else if(choice == 's' && checkPin(pin, temp->acPin)){
+			else if(choice == 's' && checkPin(pin, temp->acPin) && hasMoney(wnum, num, choice)){
 				temp->savBal = temp->savBal - wnum;
 			}else if(!checkPin(pin, temp->acPin)){
 				cout <<"Incorrect PIN, please try again \n";
+				return;
+			}else if(!hasMoney(wnum, num, choice)){
+				cout << "insufficient funds";
 				return;
 			}
 			else{
@@ -173,11 +176,14 @@ public:
 		node *temp = binarySearch(head, snum);
 		node *templ = binarySearch(head, num);
 		
-		if (accountExists(num) && accountExists(snum) && checkPin(pin, templ->acPin)){
+		if (accountExists(num) && accountExists(snum) && checkPin(pin, templ->acPin) && hasMoney(amount, num, choice)){
 			withdraw(num, amount, choice, pin);
 			deposit(snum, amount, 'c', temp->acPin);
 		}else if(!checkPin(pin, templ->acPin)){
 			cout <<"Incorrect PIN, please try again \n";
+			return;
+		}else if(!hasMoney(amount, num, choice)){
+			cout <<"Insufficient funds \n";
 			return;
 		}else{
 			cout <<"One of those accounts does not exist \n";
@@ -311,6 +317,27 @@ public:
 			return false;
 		} else{
 			return true;
+		}
+	}
+	
+	bool hasMoney(int money, int acc, char choice){
+		sort();
+		node *temp = binarySearch(head, acc);
+		
+		if ( temp ==NULL){
+			return false;
+		}else if(choice == 'c'){
+			if ((temp->checkBal - money) < 0){
+				return false;
+			}else{
+				return true;
+			}
+		}else{
+			if ((temp->savBal - money) < 0){
+				return false;
+			}else{
+				return true;
+			}
 		}
 	}
 
